@@ -60,6 +60,12 @@ class Movie(db.Model):
             'id': self.id,
             'title': self.title,
             'release_date': self.release_date,
+            'actors': [
+              {
+              'id': actor.id,
+              'name': actor.name
+              }
+              for actor in self.actors]
             }
 
 
@@ -97,4 +103,10 @@ class Actor(db.Model):
             'name': self.name,
             'age': self.age,
             'gender': self.gender,
+            'movies': [
+              {
+              'id': movie.id,
+              'name': movie.title
+              }
+              for movie in self.movies]
             }
