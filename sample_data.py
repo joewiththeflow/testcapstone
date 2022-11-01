@@ -30,3 +30,23 @@ new_movie_non_existent_actor_id["actors"] = [10000]
 
 new_actor_non_existent_movie_id = new_actor.format()
 new_actor_non_existent_movie_id["movies"] = [10000]
+
+
+update_movie = {
+    "title": "Star Wars: Return of the Jediii",
+    "release_date": 1982,
+    "actors": [
+        4,
+        5
+    ]
+}
+
+update_actor = {
+    "name": "Harrison Fordi",
+    "age": 61,
+    "gender": "male",
+    "movies": [
+        5,
+        6
+    ]
+}
