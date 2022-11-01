@@ -18,7 +18,7 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    # db.create_all() # Not sure this should be here
+    db.create_all()
 
 """
 Movie Actors - Relationship Many-to-Many
