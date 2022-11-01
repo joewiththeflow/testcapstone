@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from app import create_app
 from models import setup_db, Movie, Actor
-from sample_data import movies, actors, new_movie, new_actor, new_movie_non_existent_actor_id, new_actor_non_existent_movie_id
+from sample_data import movies, actors, new_movie, new_actor, new_movie_non_existent_actor_id, new_actor_non_existent_movie_id, update_movie, update_actor
 from settings import DB_TEST_NAME, DB_USER, DB_PASSWORD
 
 
@@ -126,6 +126,48 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data["message"], "unprocessable")
 
 
+    # UPDATE MOVIE
+
+    def test_update_movie(self):
+        res = self.client().patch("/movies/6", json=update_movie)
+        data = json.loads(res.data)
+        
+        movie_id = 6
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertEqual(data["movie"]["actors"][0]["id"], 4)
+        self.assertEqual(data["movie"]["actors"][1]["id"], 5)
+        self.assertEqual(data["movie"]["id"], movie_id)
+        self.assertEqual(data["movie"]["release_date"], 1982)
+        self.assertEqual(data["movie"]["title"], "Star Wars: Return of the Jediii")
+
+    # TODO a failure test - e.g. method not allowed
+
+     # UPDATE ACTOR
+
+    def test_update_actor(self):
+        res = self.client().patch("/actors/5", json=update_actor)
+        data = json.loads(res.data)
+        
+        actor_id = 5
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        self.assertEqual(data["actor"]["movies"][0]["id"], 5)
+        self.assertEqual(data["actor"]["movies"][0]["name"], "Star Wars: Episode 5 - The Empire Strikes Back")
+        self.assertEqual(data["actor"]["movies"][1]["id"], 6)
+        self.assertEqual(data["actor"]["movies"][1]["name"], "Star Wars: Return of the Jediii")
+        self.assertEqual(data["actor"]["id"], actor_id)
+        self.assertEqual(data["actor"]["age"], 61)
+        self.assertEqual(data["actor"]["gender"], "male")
+
+   # TODO a failure test - e.g. method not allowed
+
+
+
+
+   
     # # DELETE MOVIE
 
     # # Can only run this once successfully, then need to dropdb and recreate
