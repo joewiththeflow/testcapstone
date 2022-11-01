@@ -18,6 +18,7 @@ def create_app(test_config=None):
 
     return jsonify(
       {
+        "success": True,
         "movies": movies
       }
     )
@@ -29,6 +30,7 @@ def create_app(test_config=None):
 
     return jsonify(
       {
+        "success": True,
         "actors": actors
       }
     )
@@ -46,26 +48,29 @@ def create_app(test_config=None):
       actors = body.get("actors", None)
       
       # TODO Some form of check regarding release_date
+    
+      try:
+        new_movie = Movie(title=new_title, release_date=new_release_date)
 
-      new_movie = Movie(title=new_title, release_date=new_release_date)
+        # Add existing actors to movie if included
+        if actors:
+          for id in actors:
+            actor = Actor.query.filter(Actor.id == id).one_or_none()
+            if actor:
+              new_movie.actors.append(actor)
+            else:
+              abort(422)
 
-      # Add existing actors to movie if included
-      if actors:
-        for id in actors:
-          actor = Actor.query.filter(Actor.id == id).one_or_none()
-          if actor:
-            new_movie.actors.append(actor)
-          else:
-            abort(404)
-
-      new_movie.insert()
-      
-      return jsonify(
-        {
-            "success": True,
-            "created": new_movie.id
-        }
-      )
+        new_movie.insert()
+        
+        return jsonify(
+          {
+              "success": True,
+              "created": new_movie.id
+          }
+        )
+      except:
+        abort(422)
 
 
   @app.route("/actors", methods=["POST"])
@@ -77,25 +82,29 @@ def create_app(test_config=None):
       new_gender = body.get("gender", None)
       movies = body.get("movies", None)
 
-      new_actor = Actor(name=new_name, age=new_age, gender=new_gender)
+      try:
+        new_actor = Actor(name=new_name, age=new_age, gender=new_gender)
 
-      # Add existing movies to actor if included
-      if movies:
-        for id in movies:
-          movie = Movie.query.filter(Movie.id == id).one_or_none()
-          if movie:
-            new_actor.movies.append(movie)
-          else:
-            abort(404)
+        # Add existing movies to actor if included
+        if movies:
+          for id in movies:
+            movie = Movie.query.filter(Movie.id == id).one_or_none()
+            if movie:
+              new_actor.movies.append(movie)
+            else:
+              abort(422)
 
-      new_actor.insert()
-      
-      return jsonify(
-        {
-            "success": True,
-            "created": new_actor.id
-        }
-      )
+        new_actor.insert()
+        
+        return jsonify(
+          {
+              "success": True,
+              "created": new_actor.id
+          }
+        )
+      except:
+        abort(422)
+
 
   @app.route("/movies/<int:movie_id>", methods=["PATCH"])
   def update_movie(movie_id):
@@ -224,6 +233,8 @@ def create_app(test_config=None):
 
       except:
           abort(422)
+
+
 
   @app.errorhandler(404)
   def not_found(error):
