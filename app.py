@@ -184,6 +184,47 @@ def create_app(test_config=None):
       except:
           abort(400)
   
+  @app.route("/movies/<int:movie_id>", methods=["DELETE"])
+  def delete_movie(movie_id):
+      try:
+          movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+
+          if movie is None:
+              abort(404)
+
+          movie.delete()
+
+          return jsonify(
+              {
+                  "success": True,
+                  "deleted": movie_id
+              }
+          )
+
+      except:
+          abort(422)
+
+
+  @app.route("/actors/<int:actor_id>", methods=["DELETE"])
+  def delete_actor(actor_id):
+      try:
+          actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+
+          if actor is None:
+              abort(404)
+
+          actor.delete()
+
+          return jsonify(
+              {
+                  "success": True,
+                  "deleted": actor_id
+              }
+          )
+
+      except:
+          abort(422)
+
   return app
 
   
