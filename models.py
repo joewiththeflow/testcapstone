@@ -38,7 +38,7 @@ class Movie(db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     release_date = Column(Integer)          # Could possibly make this a Date but not absolutely necessary for this app
-    actors = db.relationship('Actor', secondary=movie_actors, cascade='all,delete', backref=db.backref('movies', lazy=True))
+    actors = db.relationship('Actor', secondary=movie_actors, backref=db.backref('movies', lazy=True))
 
     def __init__(self, title, release_date):
         self.title = title
