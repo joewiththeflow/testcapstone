@@ -70,7 +70,7 @@ class CapstoneTestCase(unittest.TestCase):
 
 
     def test_405_put_actor_method_not_allowed(self):
-        res = self.client().put("/movies", json={"id": 4, "name": "John Smith", "gender": "male"})
+        res = self.client().put("/actors", json={"id": 4, "name": "John Smith", "gender": "male"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -142,7 +142,15 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data["movie"]["release_date"], 1982)
         self.assertEqual(data["movie"]["title"], "Star Wars: Return of the Jediii")
 
-    # TODO a failure test - e.g. method not allowed
+    
+    def test_405_put_specific_movie_method_not_allowed(self):
+        res = self.client().put("/movies/6", json=update_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data["success"], False)
+        self.assertTrue(data["message"], "method not allowed")
+
 
      # UPDATE ACTOR
 
@@ -162,7 +170,13 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data["actor"]["age"], 61)
         self.assertEqual(data["actor"]["gender"], "male")
 
-   # TODO a failure test - e.g. method not allowed
+    def test_405_put_specific_actor_method_not_allowed(self):
+        res = self.client().put("/actors/5", json=update_movie)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data["success"], False)
+        self.assertTrue(data["message"], "method not allowed")
 
 
 
