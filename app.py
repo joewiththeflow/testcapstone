@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Movie, Actor
 from auth import AuthError, requires_auth
+from sample_data import movies, actors
 
 def create_app(test_config=None):
   # create and configure the app
@@ -11,6 +12,20 @@ def create_app(test_config=None):
   setup_db(app)
   CORS(app)
 
+  #########################################
+  # PREPOPULATE DATABASE WITH SAMPLE DATA IF EMPTY
+  # Uncomment and run app to insert sample data
+  
+  # Add sample movies to db if empty
+  if not Movie.query.order_by(Movie.id).all():
+    for movie in movies:
+      movie.insert()
+
+  # Add sample actors to db if empty
+  if not Actor.query.order_by(Actor.id).all():
+    for actor in actors:
+      actor.insert()
+  #########################################
 
   @app.route("/movies")
   @requires_auth('get:movies')
@@ -274,7 +289,16 @@ def create_app(test_config=None):
   @app.errorhandler(500)
   def server_error(error):
       return jsonify({"success": False, "error": 500, "message": "internal server error"}), 500
-    
+  
+
+  @app.errorhandler(AuthError)
+  def not_authorised(error):
+    return jsonify({
+        "success": False, 
+        "error": error.status_code, 
+        "message": error.error['code'],
+        "description": error.error['description']
+        }), error.status_code
 
   return app
 
