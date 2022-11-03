@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from app import create_app
 from models import setup_db, Movie, Actor
-from sample_data import movies, actors, new_movie, new_actor, new_movie_non_existent_actor_id, new_actor_non_existent_movie_id, update_movie, update_actor
+from sample_data import movies, actors, new_movie, new_actor, new_movie_non_existent_actor_id, new_actor_non_existent_movie_id, update_movie, update_actor, jwt
 from settings import DB_TEST_NAME, DB_USER, DB_PASSWORD
 
 
@@ -43,7 +43,7 @@ class CapstoneTestCase(unittest.TestCase):
     # GET MOVIES
 
     def test_get_movies(self):
-        res = self.client().get("/movies")
+        res = self.client().get("/movies", headers=jwt)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -51,7 +51,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_405_put_movie_method_not_allowed(self):
-        res = self.client().put("/movies", json={"id": 7, "title": "Star Wars: Episode 7 - The Force Awakens", "release_date": 2015})
+        res = self.client().put("/movies", json={"id": 7, "title": "Star Wars: Episode 7 - The Force Awakens", "release_date": 2015}, headers=jwt)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -62,7 +62,7 @@ class CapstoneTestCase(unittest.TestCase):
     # GET ACTORS
 
     def test_get_actors(self):
-        res = self.client().get("/actors")
+        res = self.client().get("/actors", headers=jwt)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -70,7 +70,7 @@ class CapstoneTestCase(unittest.TestCase):
 
 
     def test_405_put_actor_method_not_allowed(self):
-        res = self.client().put("/actors", json={"id": 4, "name": "John Smith", "gender": "male"})
+        res = self.client().put("/actors", json={"id": 4, "name": "John Smith", "gender": "male"}, headers=jwt)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -82,7 +82,7 @@ class CapstoneTestCase(unittest.TestCase):
      # CREATE MOVIE
 
     def test_create_movie(self):
-        res = self.client().post("/movies", json=new_movie.format())
+        res = self.client().post("/movies", json=new_movie.format(), headers=jwt)
         data = json.loads(res.data)
         
         # Get last movie in db
@@ -94,7 +94,7 @@ class CapstoneTestCase(unittest.TestCase):
 
 
     def test_422_create_movie_with_non_existent_actor_id(self):
-        res = self.client().post("/movies", json=new_movie_non_existent_actor_id)
+        res = self.client().post("/movies", json=new_movie_non_existent_actor_id, headers=jwt)
         data = json.loads(res.data)
         
         self.assertEqual(res.status_code,422)
@@ -106,7 +106,7 @@ class CapstoneTestCase(unittest.TestCase):
     # CREATE ACTOR
 
     def test_create_actor(self):
-        res = self.client().post("/actors", json=new_actor.format())
+        res = self.client().post("/actors", json=new_actor.format(), headers=jwt)
         data = json.loads(res.data)
         
         # Get last movie in db
@@ -118,7 +118,7 @@ class CapstoneTestCase(unittest.TestCase):
 
 
     def test_422_create_actor_with_non_existent_movie_id(self):
-        res = self.client().post("/actors", json=new_actor_non_existent_movie_id)
+        res = self.client().post("/actors", json=new_actor_non_existent_movie_id, headers=jwt)
         data = json.loads(res.data)
         
         self.assertEqual(res.status_code,422)
@@ -129,7 +129,7 @@ class CapstoneTestCase(unittest.TestCase):
     # UPDATE MOVIE
 
     def test_update_movie(self):
-        res = self.client().patch("/movies/6", json=update_movie)
+        res = self.client().patch("/movies/6", json=update_movie, headers=jwt)
         data = json.loads(res.data)
         
         movie_id = 6
@@ -144,7 +144,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_405_put_specific_movie_method_not_allowed(self):
-        res = self.client().put("/movies/6", json=update_actor)
+        res = self.client().put("/movies/6", json=update_actor, headers=jwt)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -155,7 +155,7 @@ class CapstoneTestCase(unittest.TestCase):
      # UPDATE ACTOR
 
     def test_update_actor(self):
-        res = self.client().patch("/actors/5", json=update_actor)
+        res = self.client().patch("/actors/5", json=update_actor, headers=jwt)
         data = json.loads(res.data)
         
         actor_id = 5
@@ -164,14 +164,12 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data["success"], True)
         self.assertEqual(data["actor"]["movies"][0]["id"], 5)
         self.assertEqual(data["actor"]["movies"][0]["name"], "Star Wars: Episode 5 - The Empire Strikes Back")
-        self.assertEqual(data["actor"]["movies"][1]["id"], 6)
-        self.assertEqual(data["actor"]["movies"][1]["name"], "Star Wars: Return of the Jediii")
         self.assertEqual(data["actor"]["id"], actor_id)
         self.assertEqual(data["actor"]["age"], 61)
         self.assertEqual(data["actor"]["gender"], "male")
 
     def test_405_put_specific_actor_method_not_allowed(self):
-        res = self.client().put("/actors/5", json=update_movie)
+        res = self.client().put("/actors/5", json=update_movie, headers=jwt)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -186,7 +184,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     # # Can only run this once successfully, then need to dropdb and recreate
     # def test_delete_movie(self):
-    #     res = self.client().delete('/movies/2')
+    #     res = self.client().delete('/movies/2', headers=jwt)
     #     data = json.loads(res.data)
 
     #     movie = Movie.query.filter(Movie.id == 2).one_or_none()
@@ -198,7 +196,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     # def test_422_movie_does_not_exist(self):
-    #     res = self.client().delete("/movies/1000")
+    #     res = self.client().delete("/movies/1000", headers=jwt)
     #     data = json.loads(res.data)
 
     #     self.assertEqual(res.status_code, 422)
@@ -210,7 +208,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     # # Can only run this once successfully, then need to dropdb and recreate
     # def test_delete_actor(self):
-    #     res = self.client().delete('/actors/2')
+    #     res = self.client().delete('/actors/2', headers=jwt)
     #     data = json.loads(res.data)
 
     #     actor = Actor.query.filter(Actor.id == 2).one_or_none()
@@ -222,7 +220,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     # def test_422_actor_does_not_exist(self):
-    #     res = self.client().delete("/actors/1000")
+    #     res = self.client().delete("/actors/1000", headers=jwt)
     #     data = json.loads(res.data)
 
     #     self.assertEqual(res.status_code, 422)

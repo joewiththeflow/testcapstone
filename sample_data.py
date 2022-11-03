@@ -35,3 +35,8 @@ new_actor_non_existent_movie_id["movies"] = [10000]
 update_movie = {"title": "Star Wars: Return of the Jediii", "release_date": 1982,"actors": [4, 5]}
 
 update_actor = {"name": "Harrison Fordi", "age": 61, "gender": "male", "movies": [5,6]}
+
+# An Executive Producer JWT Token to enable tests to run successfully
+jwt = {
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNMdE9jS2M3c05ndEZFWHk4emoxUCJ9.eyJpc3MiOiJodHRwczovL2Rldi16azF4Z21rdC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjM2MzlmMmIyZjllNGJkOTY4NDBiOWZiIiwiYXVkIjoiY2Fwc3RvbmUiLCJpYXQiOjE2Njc0OTA2ODcsImV4cCI6MTY2NzQ5Nzg4NywiYXpwIjoieTBuMnozTVVMWHhGT3c0WDF5dGt2dGZ5YnpROU0wZDEiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.LwRLt7XlmdOshEm_uysCL8uP8FMhJYQ-ZXXhO3dgP25CITm3axUatAqjRrEiA575GkHIziWxasOWXuhuvF1p0MnkfsN3myp5cfTE6n4SbaReULk5lb8wJpIPotUu9-W-Vl0AY7K-QocVCgY8kCe4VKStyjdojtH6Pr4_W0u7CAG0j3dhbg_8QesL9pQO2R4tMVmS1AOJTrTvp3xQP7ENcvzQ0GxdTekEvVZPqcIf_Wr-RcEdhIyDuDF5lg1Nkw_aYi4doQrSqkCK2YfBKV7slDpykQCjMyai6Cmpyc4kd6Vdvc7XOTG_nKSQoXgRr4-zo1T0Wc7pVjEC3Mz7L6QS1w"
+}
