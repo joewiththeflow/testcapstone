@@ -12,20 +12,20 @@ def create_app(test_config=None):
   setup_db(app)
   CORS(app)
 
-  #########################################
-  # PREPOPULATE DATABASE WITH SAMPLE DATA IF EMPTY
-  # Uncomment and run app to insert sample data
+  # #########################################
+  # # PREPOPULATE DATABASE WITH SAMPLE DATA IF EMPTY
+  # # Uncomment and run app to insert sample data
   
-  # Add sample movies to db if empty
-  if not Movie.query.order_by(Movie.id).all():
-    for movie in movies:
-      movie.insert()
+  # # Add sample movies to db if empty
+  # if not Movie.query.order_by(Movie.id).all():
+  #   for movie in movies:
+  #     movie.insert()
 
-  # Add sample actors to db if empty
-  if not Actor.query.order_by(Actor.id).all():
-    for actor in actors:
-      actor.insert()
-  #########################################
+  # # Add sample actors to db if empty
+  # if not Actor.query.order_by(Actor.id).all():
+  #   for actor in actors:
+  #     actor.insert()
+  # #########################################
 
   @app.route("/movies")
   @requires_auth('get:movies')
