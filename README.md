@@ -58,7 +58,7 @@ The app has been designed to populate the database with sample Movie and Actor d
 # #########################################
 ```
 
-Recomment the lines of code in `app.py` to ensure this does not run again.
+**Recomment the lines of code in `app.py` to ensure this does not run again.**
 
 
 The app will create a movies and actors table to represent the Movie and Actor models. There is a many-to-many relationship between these models as one movie can have many actors and one actor can star in many movies.
