@@ -29,7 +29,7 @@ createdb capstone
 
 The dropdb command is only required if you wish to delete an already existing `capstone` database that you have created.
 
-The app has been designed to populate the database with sample Movie and Actor data when it is run if the 'capstone' database is empty of records. See `sample_data.py` for the sample data. Uncomment the following section and run to populate the database on first run:
+The app has been designed to populate the database with sample Movie and Actor data when it is run if the 'capstone' database is empty of records. See `sample_data.py` for the sample data. Uncomment the following section in `app.py` and run to populate the database on first run:
 
 ```
 # #########################################
@@ -48,7 +48,7 @@ The app has been designed to populate the database with sample Movie and Actor d
 # #########################################
 ```
 
-Recomment the lines of code to ensure this does not run again.
+Recomment the lines of code in `app.py` to ensure this does not run again.
 
 
 The app will create a movies and actors table to represent the Movie and Actor models. There is a many-to-many relationship between these models as one movie can have many actors and one actor can star in many movies.
@@ -58,7 +58,7 @@ The app will create a movies and actors table to represent the Movie and Actor m
 
 There have been tests that have been configured in `test_app.py`. A sample JWT for an Executive Producer has been included in the header for each test so that it will run. This JWT can be found in `sample_data.py`.
 
-Assuming you have postgres running locally, create a local database called `capstone`:
+Assuming you have postgres running locally, create a local database called `capstone_test`:
 
 ```
 dropdb capstone_test
@@ -66,17 +66,17 @@ createdb capstone_test
 ```
 The first time you run the tests, omit the dropdb command. 
 
-As with the local database for running the app, the test database can be prepopulated by uncommenting a similar section of code on first run as described above.
+As with the local database for running the app, the test database can be prepopulated by uncommenting a similar section of code in `test_app.py` on first run as described above.
 
 In order to run tests in `test_app.py`, run the following command: 
 
 ```
-python test_app.py
+pytest test_app.py
 ```
  
 
 ### Getting Started
-- At present this app can be run locally. The app is hosted at the default, `http://127.0.0.1:8080/`
+- At present this app can be run locally. The app is hosted at the default: `http://127.0.0.1:8080/`
 - Authentication: This version of the application does require authentication. A Postman collection has been included for each of the available roles and these include a temporarily valid JWT for each role.
 - Hosted: There is a version of this app currently hosted on Heroku at -  
 
@@ -89,7 +89,7 @@ Errors are returned as JSON objects in the following format:
     "message": "resource not found"
 }
 ```
-The API will return three error types when requests fail:
+The API will return the following error types when requests fail:
 - 400: Bad Request
 - 404: Resource Not Found
 - 405: Method Not Allowed
@@ -163,22 +163,10 @@ The API will return three error types when requests fail:
             "actors": [
                 {
                     "id": 6,
-                    "name": "Diasy Ridley"
+                    "name": "Daisy Ridley"
                 }
             ],
             "id": 7,
-            "release_date": 2015,
-            "title": "Star Wars: Episode 7 - The Force Awakens"
-        },
-        {
-            "actors": [],
-            "id": 8,
-            "release_date": 2015,
-            "title": "Star Wars: Episode 7 - The Force Awakens"
-        },
-        {
-            "actors": [],
-            "id": 9,
             "release_date": 2015,
             "title": "Star Wars: Episode 7 - The Force Awakens"
         }
@@ -189,7 +177,7 @@ The API will return three error types when requests fail:
 
 #### GET /actors
 - General:
-    - Fetches a list of actors, with each movie having details such as title, release_date and actors
+    - Fetches a list of actors, with each actor having details such as age, gender, name and movies
     - Request Arguments: None
     - Returns: An dictionary with a single key, actors, that contains a list of objects with age, gender, id, movies and name 
 - Sample: `curl http://127.0.0.1:8080/actors`
@@ -251,7 +239,7 @@ The API will return three error types when requests fail:
                     "name": "Star Wars: Episode 7 - The Force Awakens"
                 }
             ],
-            "name": "Diasy Ridley"
+            "name": "Daisy Ridley"
         }
     ],
     "success": true
@@ -262,7 +250,7 @@ The API will return three error types when requests fail:
 - General:
     - Deletes the movie with the given ID if it exists.
     - Request Arguments: movie ID
-    - Returns: dictionary including success value and deleted question ID. 
+    - Returns: dictionary including success value and deleted movie ID. 
 - Sample: `curl -X DELETE http://127.0.0.1:8080/movies/4`
 
 ``` 
@@ -276,7 +264,7 @@ The API will return three error types when requests fail:
 - General:
     - Deletes the actor with the given ID if it exists.
     - Request Arguments: actor ID
-    - Returns: dictionary including success value and deleted question ID. 
+    - Returns: dictionary including success value and deleted actor ID. 
 - Sample: `curl -X DELETE http://127.0.0.1:8080/actors/1`
 
 ``` 
@@ -290,7 +278,7 @@ The API will return three error types when requests fail:
 - General:
     - Creates a new movie
     - Request Arguments: title, release_date, OPTIONAL: actors
-    - Returns: dictionary including created question ID, success value, movie that was created
+    - Returns: dictionary including created movie id, success value, movie that was created
 - Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Return of the Jedi", "release_date": 1981, "actors": [4]}' 'http://127.0.0.1:8080/movies'`
 
 ``` 
@@ -372,6 +360,101 @@ The API will return three error types when requests fail:
 }
 ```
 
+#### PATCH /movies/{movie_id}
+- General:
+    - Updates an existing movie
+    - OPTIONAL Request Arguments: title, release_date, actors
+    - Returns: dictionary including success value and movie that was created
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Episode 7 - The Force Awakens", "release_date": 2015, "actors": [6]}' 'http://127.0.0.1:8080/movies/7'`
+
+```
+{
+    "movie": {
+        "actors": [
+            {
+                "id": 6,
+                "name": "Diasy Ridley"
+            }
+        ],
+        "id": 7,
+        "release_date": 2015,
+        "title": "Star Wars: Episode 7 - The Force Awakens"
+    },
+    "success": true
+}
+```
+
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Episode 7 - The Force Awakens Director's Cut"}' 'http://127.0.0.1:8080/movies/7'`
+
+``` 
+{
+    "movie": {
+        "actors": [
+            {
+                "id": 6,
+                "name": "Daisy Ridley"
+            }
+        ],
+        "id": 7,
+        "release_date": 2015,
+        "title": "Star Wars: Episode 7 - The Force Awakens Director's Cut"
+    },
+    "success": true
+}
+```
+
+#### PATCH /actors/{actor_id}
+- General:
+    - Updates an existing actor
+    - OPTIONAL Request Arguments: name, age, gender, movies
+    - Returns: dictionary including success value and actor that was created
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"name": "Harrison Ford","age": 60,"gender": "male","movies": [5,6]}' 'http://127.0.0.1:8080/actors/5'`
+
+``` 
+{
+    "actor": {
+        "age": 60,
+        "gender": "male",
+        "id": 5,
+        "movies": [
+            {
+                "id": 5,
+                "name": "Star Wars: Episode 5 - The Empire Strikes Back"
+            },
+            {
+                "id": 6,
+                "name": "Star Wars: Episode 6 - Return of the Jedi"
+            }
+        ],
+        "name": "Harrison Ford"
+    },
+    "success": true
+}
+```
+
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"name": "Harrison Ford - (Han Solo)"}' 'http://127.0.0.1:8080/actors/5'`
+
+```
+{
+    "actor": {
+        "age": 60,
+        "gender": "male",
+        "id": 5,
+        "movies": [
+            {
+                "id": 5,
+                "name": "Star Wars: Episode 5 - The Empire Strikes Back"
+            },
+            {
+                "id": 6,
+                "name": "Star Wars: Episode 6 - Return of the Jedi"
+            }
+        ],
+        "name": "Harrison Ford - (Han Solo)"
+    },
+    "success": true
+}
+```
 
 ## Deployment N/A
 
