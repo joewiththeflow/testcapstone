@@ -85,7 +85,8 @@ def create_app(test_config=None):
         return jsonify(
           {
               "success": True,
-              "created": new_movie.id
+              "created": new_movie.id,
+              "movie": new_movie.format()
           }
         )
       except:
@@ -119,7 +120,8 @@ def create_app(test_config=None):
         return jsonify(
           {
               "success": True,
-              "created": new_actor.id
+              "created": new_actor.id,
+              "actor": new_actor.format()
           }
         )
       except:
