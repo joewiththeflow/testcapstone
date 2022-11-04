@@ -25,7 +25,7 @@ export DATABASE_URL="postgresql://joe@localhost:5432/capstone"
 export TEST_DATABASE_URL="postgresql://joe@localhost:5432/capstone_test"
 echo "setup.sh script executed successfully!"
 ```
-Then run the `setup.sh` script to set up your database environment variables as well as auth0 parameters. 
+Then run the `setup.sh` script to set up your database environment variables as well as auth0 parameters and sample JWT_TOKEN for `test_app.py`. 
 
 ### Local Database Setup
 
@@ -66,7 +66,7 @@ The app will create a movies and actors table to represent the Movie and Actor m
 
 ### Tests
 
-There have been tests that have been configured in `test_app.py`. A sample JWT for an Executive Producer has been included in the header for each test so that it will run. This JWT can be found in `sample_data.py`.
+There have been tests that have been configured in `test_app.py`. A sample JWT for an Executive Producer has been included in the header for each test so that it will run. This JWT can be found in `setup.sh`.
 
 Assuming you have postgres running locally, create a local database called `capstone_test`:
 
@@ -87,7 +87,7 @@ pytest test_app.py
 
 ### Getting Started
 - At present this app can be run locally. The app is hosted at the default: `http://127.0.0.1:8080/`
-- Authentication: This version of the application does require authentication. A Postman collection has been included for each of the available roles and these include a temporarily valid JWT for each role"
+- Authentication: This version of the application does require authentication. A Postman collection has been included for each of the available roles and these include a temporarily valid JWT for each role:
   - Casting Assistant
   - Casting Director
   - Executive Producer
@@ -96,9 +96,9 @@ pytest test_app.py
 ### Postman Test Suite
 - Two postman collections have been included as part of this project
 
-- udacity-capstone-final: this will run the Role based access tests against the local deployment of the capstone project.
+- `udacity-capstone-final`: this will run the Role based access tests against the local deployment of the capstone project.
 
-- udacity-capstone-heroku: this will run the Role based access tests against the Heroku hosted deployment of the app.
+- `udacity-capstone-heroku`: this will run the Role based access tests against the Heroku hosted deployment of the app.
 
 - Both collections have the necessary JWT tokens included for the particular roles. 
 
