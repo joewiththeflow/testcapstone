@@ -17,8 +17,18 @@ This app is a backend API which models a company that is responsible for creatin
 pip install -r requirements.txt
 ```
 
+4. **Environment Variables** You will first need to populate your `setup.sh` script with your own database credentials, e.g.:
+
+```
+#!/bin/bash
+export DATABASE_URL="postgresql://joe@localhost:5432/capstone"
+export TEST_DATABASE_URL="postgresql://joe@localhost:5432/capstone_test"
+echo "setup.sh script executed successfully!"
+```
+Then run the `setup.sh` script to set up your database environment variables as well as auth0 parameters. 
 
 ### Local Database Setup
+
 
 Assuming you have postgres running locally, create a local database called `capstone`:
 
@@ -73,12 +83,24 @@ In order to run tests in `test_app.py`, run the following command:
 ```
 pytest test_app.py
 ```
- 
+
 
 ### Getting Started
 - At present this app can be run locally. The app is hosted at the default: `http://127.0.0.1:8080/`
-- Authentication: This version of the application does require authentication. A Postman collection has been included for each of the available roles and these include a temporarily valid JWT for each role.
-- Hosted: There is a version of this app currently hosted on Heroku at -  
+- Authentication: This version of the application does require authentication. A Postman collection has been included for each of the available roles and these include a temporarily valid JWT for each role"
+  - Casting Assistant
+  - Casting Director
+  - Executive Producer
+- Hosted: There is a version of this app currently hosted on Heroku at - `https://udacity-capstone-1537268.herokuapp.com/`
+
+### Postman Test Suite
+- Two postman collections have been included as part of this project
+
+- udacity-capstone-final: this will run the Role based access tests against the local deployment of the capstone project.
+
+- udacity-capstone-heroku: this will run the Role based access tests against the Heroku hosted deployment of the app.
+
+- Both collections have the necessary JWT tokens included for the particular roles. 
 
 ### Error Handling
 Errors are returned as JSON objects in the following format:
@@ -456,7 +478,9 @@ The API will return the following error types when requests fail:
 }
 ```
 
-## Deployment N/A
+## Deployment
+
+The app has been deployed on Heroku at: `https://udacity-capstone-1537268.herokuapp.com/`
 
 ## Authors
 Joseph Doogan
