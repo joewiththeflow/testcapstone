@@ -26,13 +26,20 @@ class CapstoneTestCase(unittest.TestCase):
             # create all tables
             self.db.create_all()
             
-        # Add sample movies to test db
-        for movie in movies:
-            movie.insert()
+        # #########################################
+        # # PREPOPULATE DATABASE WITH SAMPLE DATA IF EMPTY
+        # # Uncomment and run app to insert sample data
+        
+        # # Add sample movies to db if empty
+        # if not Movie.query.order_by(Movie.id).all():
+        #   for movie in movies:
+        #     movie.insert()
 
-        # Add sample actors to test db
-        for actor in actors:
-            actor.insert()
+        # # Add sample actors to db if empty
+        # if not Actor.query.order_by(Actor.id).all():
+        #   for actor in actors:
+        #     actor.insert()
+        # #########################################
 
     
     def tearDown(self):
