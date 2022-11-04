@@ -9,7 +9,7 @@ This app is a backend API which models a company that is responsible for creatin
 1. **Python 3.9** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
 
 
-2. **Virtual Enviornment** - This keeps your dependencies for each project separate and organised. Instructions for setting up a virual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+2. **Virtual Environment** - This keeps your dependencies for each project separate and organised. Instructions for setting up a virual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 
 
 3. **PIP Dependencies** - Once you have your virtual environment setup and running, install dependencies:
