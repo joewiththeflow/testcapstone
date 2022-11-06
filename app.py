@@ -261,6 +261,12 @@ def create_app(test_config=None):
           abort(422)
 
 
+  @app.errorhandler(403)
+  def not_authorized(error):
+      return (
+          jsonify({"success": False, "error": 403, "message": "not authorized"}),
+          403,
+      )
 
   @app.errorhandler(404)
   def not_found(error):
