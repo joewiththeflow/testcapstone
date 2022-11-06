@@ -87,11 +87,27 @@ pytest test_app.py
 
 ### Getting Started
 - At present this app can be run locally. The app is hosted at the default: `http://127.0.0.1:8080/`
-- Authentication: This version of the application does require authentication. A Postman collection has been included for each of the available roles and these include a temporarily valid JWT for each role:
-  - Casting Assistant
-  - Casting Director
-  - Executive Producer
+
 - Hosted: There is a version of this app currently hosted on Heroku at - `https://udacity-capstone-1537268.herokuapp.com/`
+
+### Role Based Access Control (RBAC)
+
+- Authentication: This version of the application does require authentication. Unit tests and a Postman collection (`udacity-capstone-heroku.postman_collection.json`) have been included for each of the available roles and these include a temporarily valid JWT for each role.
+
+The credentials for the roles are below:
+
+  - Casting Assistant
+    - username: `thisisacastingassistant@gmail.com`
+    - password: H3Ll0mYfR13nD
+  - Casting Director
+    - username: `thisisacastingdirector@gmail.com`
+    - password: H3Ll0mYfR13nD
+  - Executive Producer
+    - username: `thisisanexecutivedirector@gmail.com`
+    - password: H3Ll0mYfR13nD
+
+To log in as one of the roles listed above and receive a JWT token, you must navigate to the following link in your browser:
+`https://dev-zk1xgmkt.us.auth0.com/authorize?audience=capstone&response_type=token&client_id=y0n2z3MULXxFOw4X1ytkvtfybzQ9M0d1&redirect_uri=https://127.0.0.1:8080/login-results`
 
 ### Postman Test Suite
 - Two postman collections have been included as part of this project
@@ -131,7 +147,7 @@ The API will return the following error types when requests fail:
         {
             "actors": [],
             "id": 1,
-            "release_date": 1999,
+            "release_date": "1999",
             "title": "Star Wars: Episode 1 - The Phantom Menace"
         },
         {
@@ -142,13 +158,13 @@ The API will return the following error types when requests fail:
                 }
             ],
             "id": 2,
-            "release_date": 2002,
+            "release_date": "2002",
             "title": "Star Wars: Episode 2 - Attack of the Clones"
         },
         {
             "actors": [],
             "id": 3,
-            "release_date": 2005,
+            "release_date": "2005",
             "title": "Star Wars: Episode 3 - Revenge of the Sith"
         },
         {
@@ -163,7 +179,7 @@ The API will return the following error types when requests fail:
                 }
             ],
             "id": 5,
-            "release_date": 1980,
+            "release_date": "1980",
             "title": "Star Wars: Episode 5 - The Empire Strikes Back"
         },
         {
@@ -178,7 +194,7 @@ The API will return the following error types when requests fail:
                 }
             ],
             "id": 6,
-            "release_date": 1983,
+            "release_date": "1983",
             "title": "Star Wars: Episode 6 - Return of the Jedi"
         },
         {
@@ -189,7 +205,7 @@ The API will return the following error types when requests fail:
                 }
             ],
             "id": 7,
-            "release_date": 2015,
+            "release_date": "2015",
             "title": "Star Wars: Episode 7 - The Force Awakens"
         }
     ],
@@ -301,7 +317,7 @@ The API will return the following error types when requests fail:
     - Creates a new movie
     - Request Arguments: title, release_date, OPTIONAL: actors
     - Returns: dictionary including created movie id, success value, movie that was created
-- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Return of the Jedi", "release_date": 1981, "actors": [4]}' 'http://127.0.0.1:8080/movies'`
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Return of the Jedi", "release_date": "1981", "actors": [4]}' 'http://127.0.0.1:8080/movies'`
 
 ``` 
 {
@@ -314,14 +330,14 @@ The API will return the following error types when requests fail:
             }
         ],
         "id": 10,
-        "release_date": 1981,
+        "release_date": "1981",
         "title": "Star Wars: Return of the Jedi"
     },
     "success": true
 }
 ```
 
-- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Episode 7 - The Force Awakens", "release_date": 2015}' http://127.0.0.1:8080/movies`
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Episode 7 - The Force Awakens", "release_date": "2015"}' http://127.0.0.1:8080/movies`
 
 ``` 
 {
@@ -329,7 +345,7 @@ The API will return the following error types when requests fail:
     "movie": {
         "actors": [],
         "id": 11,
-        "release_date": 2015,
+        "release_date": "2015",
         "title": "Star Wars: Episode 7 - The Force Awakens"
     },
     "success": true
@@ -387,7 +403,7 @@ The API will return the following error types when requests fail:
     - Updates an existing movie
     - OPTIONAL Request Arguments: title, release_date, actors
     - Returns: dictionary including success value and movie that was created
-- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Episode 7 - The Force Awakens", "release_date": 2015, "actors": [6]}' 'http://127.0.0.1:8080/movies/7'`
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"title": "Star Wars: Episode 7 - The Force Awakens", "release_date": "2015", "actors": [6]}' 'http://127.0.0.1:8080/movies/7'`
 
 ```
 {
@@ -399,7 +415,7 @@ The API will return the following error types when requests fail:
             }
         ],
         "id": 7,
-        "release_date": 2015,
+        "release_date": "2015",
         "title": "Star Wars: Episode 7 - The Force Awakens"
     },
     "success": true
@@ -418,7 +434,7 @@ The API will return the following error types when requests fail:
             }
         ],
         "id": 7,
-        "release_date": 2015,
+        "release_date": "2015",
         "title": "Star Wars: Episode 7 - The Force Awakens Director's Cut"
     },
     "success": true
